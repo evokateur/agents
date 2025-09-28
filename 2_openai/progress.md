@@ -5,7 +5,5 @@
 - [x] 2_lab2.ipynb
 
 - [x] 3_lab3.ipynb
-  Exercises:
-  - [ ] Try different models
-  - [ ] Add more input and output guardrails
-  - [ ] Use structured output for email generation
+
+- [x] 4_lab4.ipynb
