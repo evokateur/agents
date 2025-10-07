@@ -13,14 +13,15 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 # Replace with inputs you want to test with, it will automatically
 # interpolate any tasks and agents information
 
+
 def run():
     """
     Run the crew.
     """
     inputs = {
-        'motion': 'There needs to be strict laws to regulate LLMs',
+        "motion": "If any sort of chat assistance is provided, and the assistance is being provide by an AI, it should be legally required to disclose that it is as such. In other words it should NOT be legal to provide AI assistance and represent it as human assistance."
     }
-    
+
     try:
         result = Debate().crew().kickoff(inputs=inputs)
         print(result.raw)
