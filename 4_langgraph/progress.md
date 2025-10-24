@@ -48,5 +48,8 @@ Checkpointing occurs between super-steps to preserve state/memory
 - [x] Day 3: `2_lab2.ipynb`
 
 - [x] Day 4: `3_lab3.ipynb`
+  - NOTE: needed to run `uv run playwright install` to get the version of Chromium that matches the (uv created) `.venv`
 
 - [x] Day 4: `4_lab4.ipynb`
+  - replaced `image_viewer.py` with `monkey_see.py` (import `display` from it to override original func with version that opens temp image file in OS)
+
