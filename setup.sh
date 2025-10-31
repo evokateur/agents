@@ -10,8 +10,7 @@ echo "Installing crewai uv tool.."
 uv tool install crewai
 
 echo "Installing Jupyter kernel spec for $(pwd)/.venv.."
-uv run ipython kernel install --user --env VIRTUAL_ENV $(pwd)/.venv --name=agents --display-name "Agentic Engineering"
-echo
+uv run ipython kernel install --user --env VIRTUAL_ENV "$(pwd)/.venv" --name=agents --display-name "Agentic Engineering"
 echo "Use the 'agents' kernel in Jupyter notebooks."
 echo
 echo "To launch Jupyter Lab in the uv environment:"
