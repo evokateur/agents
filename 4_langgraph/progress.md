@@ -53,3 +53,5 @@ Checkpointing occurs between super-steps to preserve state/memory
 - [x] Day 4: `4_lab4.ipynb`
   - replaced `image_viewer.py` with `monkey_see.py` (import `display` from it to override original func with version that opens temp image file in OS)
 
+- [ ] Day 5: sidekick app
+  - [ ] add memory (use example from `4_lab4.ipnynb`)
