@@ -2,6 +2,10 @@
 
 ## Notes
 
+### installing playwright
+
+I'm running `uv run playwright install`
+
 ### Defining the Graph
 
 Before you call `graph.invoke(state)`
@@ -28,7 +32,7 @@ Before you call `graph.invoke(state)`
 
 - Every user interaction is a fresh `graph.invoke(state)` call
 
-- *The reducer handles updating state during a super-stop but not between super-steps*
+- *The reducer handles updating state during a super-step but not between super-steps*
 
 #### How it all fits together
 
