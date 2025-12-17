@@ -258,17 +258,3 @@ def run(df, holdings):
 
     assert isinstance(res, str)
     assert "Order error: Insufficient USD for BUY" in res
-
-
-def test_temp(btc_csv_path):
-    _, bt = make_helper_and_bt("data/BTC-USD_2014_2024.csv")
-
-    # read code from file
-    with open("output/trading_strategy_implementation.py", "r") as f:
-        code = f.read()
-    START_DATE = parse_yyyy_mm_dd(BTC_DATASET_START_DATE) + timedelta(days=1)
-    END_DATE = parse_yyyy_mm_dd(BTC_DATASET_END_DATE)
-    res = bt.test_strategy(START_DATE, END_DATE, code)
-
-    print(f"\n\n{res}\n\n")
-    assert not isinstance(res, str)
