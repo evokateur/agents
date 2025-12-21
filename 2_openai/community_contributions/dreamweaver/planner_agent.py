@@ -61,6 +61,6 @@ Avoid searching for any topics listed in "Topics to Avoid".
 planner_agent = Agent(
     name="Story Planner",
     instructions=INSTRUCTIONS,
-    model="gpt-4o-mini",
+    model="gpt-5-mini",
     output_type=StorySearchPlan,
 )

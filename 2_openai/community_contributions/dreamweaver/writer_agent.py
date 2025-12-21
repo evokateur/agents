@@ -46,6 +46,6 @@ Deep Instructions:
 writer_agent = Agent(
     name="Story Writer",
     instructions=INSTRUCTIONS,
-    model="gpt-4o-mini",
+    model="gpt-5-mini",
     output_type=BedtimeStory,
 )

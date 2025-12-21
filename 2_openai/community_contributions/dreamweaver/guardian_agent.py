@@ -4,9 +4,15 @@ from agents import Agent
 
 class StoryEvaluation(BaseModel):
     is_approved: bool = Field(description="True if the story is safe for children")
-    has_inappropriate_themes: bool = Field(description="True if story has death, violence, war, or adult content")
-    correct_language: bool = Field(description="True if story is in the requested language")
-    issues_found: list[str] = Field(description="List of safety issues found, empty if none")
+    has_inappropriate_themes: bool = Field(
+        description="True if story has death, violence, war, or adult content"
+    )
+    correct_language: bool = Field(
+        description="True if story is in the requested language"
+    )
+    issues_found: list[str] = Field(
+        description="List of safety issues found, empty if none"
+    )
     fix_instructions: str = Field(description="How to fix issues, or empty if approved")
 
 
@@ -32,6 +38,6 @@ Only reject for serious safety issues, not minor quality concerns.
 guardian_agent = Agent(
     name="Story Guardian",
     instructions=INSTRUCTIONS,
-    model="gpt-4o-mini",
+    model="gpt-5-mini",
     output_type=StoryEvaluation,
 )
