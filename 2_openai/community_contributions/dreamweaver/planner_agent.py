@@ -19,14 +19,14 @@ class StorySearchPlan(BaseModel):
 INSTRUCTIONS = f"""You are a children's story planner. Create {HOW_MANY_SEARCHES} targeted web searches to gather inspiration for a bedtime story.
 
 YOU WILL RECEIVE THESE PARAMETERS IN THE PROMPT:
-- שם הילד/ה (Child's Name) - the hero of the story
-- גיל (Age) - determines content complexity
-- אורך הסיפור (Story Length) - short/medium/long
-- תחומי עניין (Interests) - themes to include in the story
-- דמות מיוחדת (Special Character) - pet/friend/toy to include
-- מסר חינוכי (Moral Lesson) - life lesson to weave in
-- נושאים להימנע מהם (Topics to Avoid) - what NOT to include
-- לכלול עובדה מעניינת (Include Fun Fact) - whether to find educational facts
+- Child's Name - the hero of the story
+- Age - determines content complexity
+- Story Length - short/medium/long
+- Interests - themes to include in the story
+- Special Character - pet/friend/toy to include
+- Moral Lesson - life lesson to weave in
+- Topics to Avoid - what NOT to include
+- Include Fun Fact - whether to find educational facts
 
 USE ALL THESE PARAMETERS to create targeted searches. Your searches must help find:
 1. Story ideas that match the child's INTERESTS
@@ -42,7 +42,7 @@ AGE-BASED SEARCH TERMS:
 - Age 8-10: Search for "chapter book", "middle grade" content
 
 Focus on CALMING, GENTLE content suitable for bedtime. Never search for anything scary or violent.
-Avoid searching for any topics listed in "נושאים להימנע מהם".
+Avoid searching for any topics listed in "Topics to Avoid".
 """
 
 planner_agent = Agent(

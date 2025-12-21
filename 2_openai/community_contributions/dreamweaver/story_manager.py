@@ -20,6 +20,7 @@ class UserInput(BaseModel):
     moral_lesson: str = Field(description="Life lesson to weave in")
     topics_to_avoid: str | None = Field(description="Anything to avoid in the story")
     include_fun_fact: bool = Field(description="Whether to include an educational fact")
+    story_language: str = Field(description="Language for the story: Hebrew or English")
 
 
 class StoryResult(BaseModel):
@@ -85,20 +86,8 @@ class StoryManager:
     async def plan_searches(self, user_input: UserInput) -> StorySearchPlan:
         """Create search queries based on user input"""
         print("Planning searches...")
-        input_text = f"""
-=== USER'S ANSWERS ===
-שם הילד/ה (Child's Name): {user_input.child_name}
-גיל (Age): {user_input.age}
-אורך הסיפור (Story Length): {user_input.story_length}
-תחומי עניין (Interests): {', '.join(user_input.interests)}
-דמות מיוחדת (Special Character): {user_input.special_character or 'ללא'}
-מסר חינוכי (Moral Lesson): {user_input.moral_lesson}
-נושאים להימנע מהם (Topics to Avoid): {user_input.topics_to_avoid or 'ללא'}
-לכלול עובדה מעניינת (Include Fun Fact): {'כן' if user_input.include_fun_fact else 'לא'}
-
-Create search queries that will help write a bedtime story with ALL these elements.
-Research content appropriate for a {user_input.age}-year-old child.
-"""
+        input_text = f"Create search queries for a bedtime story with the following parameters:\
+            user's input: {user_input}"
         result = await Runner.run(planner_agent, input_text)
         print(f"Will perform {len(result.final_output.searches)} searches")
         return result.final_output_as(StorySearchPlan)

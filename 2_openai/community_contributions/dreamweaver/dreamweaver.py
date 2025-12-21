@@ -14,15 +14,16 @@ async def generate_story(
     moral_lesson: str,
     topics_to_avoid: str,
     include_fun_fact: bool,
+    story_language: str,
 ):
     """Generate a bedtime story based on user input"""
 
     if not child_name:
-        yield "נא להזין את שם הילד/ה!", ""
+        yield "Please enter the child's name!", ""
         return
 
     if not interests:
-        yield "נא לבחור לפחות תחום עניין אחד!", ""
+        yield "Please select at least one interest!", ""
         return
 
     user_input = UserInput(
@@ -34,6 +35,7 @@ async def generate_story(
         moral_lesson=moral_lesson,
         topics_to_avoid=topics_to_avoid if topics_to_avoid else None,
         include_fun_fact=include_fun_fact,
+        story_language=story_language,
     )
 
     async for chunk in StoryManager().run(user_input):
@@ -47,17 +49,17 @@ async def generate_story(
 # Build the Gradio UI
 with gr.Blocks(
     theme=gr.themes.Soft(primary_hue="purple", secondary_hue="pink"),
-    title="DreamWeaver - סיפורי לילה טוב",
+    title="DreamWeaver - Bedtime Stories",
 ) as ui:
 
-    gr.Markdown("# 🌙 DreamWeaver - סיפורי לילה טוב")
+    gr.Markdown("# 🌙 DreamWeaver - Bedtime Stories")
 
     # Row 1: Name, Age, Length
     with gr.Row():
-        child_name = gr.Textbox(label="שם הילד/ה", placeholder="נועה", scale=2)
-        age = gr.Slider(label="גיל", minimum=2, maximum=10, step=1, value=5, scale=1)
+        child_name = gr.Textbox(label="Child's Name", placeholder="Noa", scale=2)
+        age = gr.Slider(label="Age", minimum=2, maximum=10, step=1, value=5, scale=1)
         story_length = gr.Radio(
-            label="אורך הסיפור",
+            label="Story Length",
             choices=["short", "medium", "long"],
             value="medium",
             scale=1
@@ -66,39 +68,45 @@ with gr.Blocks(
     # Row 2: Interests, Special Character, Moral
     with gr.Row():
         interests = gr.Dropdown(
-            label="תחומי עניין (ניתן לבחור כמה)",
+            label="Interests (select multiple)",
             choices=[
-                "חיות", "חלל וכוכבים", "דינוזאורים", "נסיכות וטירות",
-                "ים ויצורי ים", "קסם וקוסמים", "כלי רכב", "טבע ויערות",
-                "גיבורי על", "פיות", "רובוטים", "מוזיקה", "ספורט", "בישול",
-                "דרקונים", "חדי קרן", "פיראטים", "רכבות", "פרפרים", "גינות"
+                "Animals", "Space and Stars", "Dinosaurs", "Princesses and Castles",
+                "Ocean and Sea Creatures", "Magic and Wizards", "Vehicles", "Nature and Forests",
+                "Superheroes", "Fairies", "Robots", "Music", "Sports", "Cooking",
+                "Dragons", "Unicorns", "Pirates", "Trains", "Butterflies", "Gardens"
             ],
             multiselect=True,
             scale=2
         )
         special_character = gr.Textbox(
-            label="דמות מיוחדת",
-            placeholder="פלאפי החתול (אופציונלי)",
+            label="Special Character",
+            placeholder="Fluffy the cat (optional)",
             scale=1
         )
         moral_lesson = gr.Dropdown(
-            label="מסר חינוכי",
-            choices=["ללא", "חסד ונתינה", "אומץ", "סקרנות", "סבלנות", "חברות", "להיות עצמך"],
-            value="חסד ונתינה",
+            label="Moral Lesson",
+            choices=["None", "Kindness and Giving", "Courage", "Curiosity", "Patience", "Friendship", "Being Yourself"],
+            value="Kindness and Giving",
             scale=1
         )
 
-    # Row 3: Avoid, Fun Fact
+    # Row 3: Avoid, Fun Fact, Language
     with gr.Row():
         topics_to_avoid = gr.Textbox(
-            label="נושאים להימנע מהם",
-            placeholder="מים, כלבים (אופציונלי)",
+            label="Topics to Avoid",
+            placeholder="water, dogs (optional)",
             scale=2
         )
-        include_fun_fact = gr.Checkbox(label="לכלול עובדה מעניינת", value=True, scale=1)
+        include_fun_fact = gr.Checkbox(label="Include Fun Fact", value=True, scale=1)
+        story_language = gr.Radio(
+            label="Story Language",
+            choices=["Hebrew", "English"],
+            value="Hebrew",
+            scale=1
+        )
 
     # Full-width button
-    generate_btn = gr.Button("✨ צור סיפור קסום", variant="primary", size="lg")
+    generate_btn = gr.Button("✨ Create Magical Story", variant="primary", size="lg")
 
     # Status message (replaces itself)
     status_output = gr.Markdown(value="", elem_id="status")
@@ -107,7 +115,7 @@ with gr.Blocks(
     story_output = gr.Markdown(value="", rtl=True)
 
     gr.Markdown(
-        "🛡️ *כל סיפור נבדק על ידי שומר הסיפורים שלנו לבטיחות, תוכן מותאם גיל, וסיום מרגיע.*"
+        "🛡️ *Every story is reviewed by our Story Guardian for safety, age-appropriate content, and a calming ending.*"
     )
 
     # Wire up the button
@@ -116,6 +124,7 @@ with gr.Blocks(
         inputs=[
             child_name, age, story_length, interests,
             special_character, moral_lesson, topics_to_avoid, include_fun_fact,
+            story_language,
         ],
         outputs=[status_output, story_output],
     )

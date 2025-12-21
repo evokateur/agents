@@ -19,6 +19,9 @@ class StoryEvaluation(BaseModel):
     appropriate_length: bool = Field(
         description="True if story length matches the requested length (short/medium/long)"
     )
+    correct_language: bool = Field(
+        description="True if story is written in the requested language (Hebrew or English)"
+    )
 
     # Feedback for revision
     issues_found: list[str] = Field(
@@ -32,13 +35,13 @@ class StoryEvaluation(BaseModel):
 INSTRUCTIONS = """You are the Story Guardian. Your sacred duty is to protect children from
 any content that could disturb their sleep or harm their wellbeing.
 
-You will receive a bedtime story, the child's age, and requested story length. Evaluate carefully.
+You will receive a bedtime story, the child's age, requested story length, and requested language. Evaluate carefully.
 
 SAFETY CHECKS (story FAILS if ANY of these are True):
 
 1. INAPPROPRIATE THEMES CHECK:
    - Death or loss (even of minor characters)
-   - Violence or fighting 
+   - Violence or fighting
    - War or disaster scenarios
    - Adults content (romance, jobs, sexual themes)
 
@@ -54,6 +57,10 @@ QUALITY CHECKS (story FAILS if ANY of these are False):
    - short: 900-1100 words (FAIL if under 900)
    - medium: 1900-2100 words (FAIL if under 2100)
    - long: 2900-3100 words (FAIL if under 3100)
+
+3. CORRECT LANGUAGE:
+   - The story must be written in the requested language (Hebrew or English)
+   - If the story is in the wrong language, FAIL
 
 EVALUATION:
 - Set is_approved = True ONLY if ALL safety checks are False AND ALL quality checks are True
