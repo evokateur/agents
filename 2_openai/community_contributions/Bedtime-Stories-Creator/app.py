@@ -1,8 +1,31 @@
+import os
+import httpx
 import gradio as gr
 from dotenv import load_dotenv
 from story_manager import StoryManager, UserInput
 
 load_dotenv(override=True)
+
+
+def send_pushover_notification(title: str, message: str):
+    """Send a push notification via Pushover"""
+    token = os.getenv("PUSHOVER_TOKEN")
+    user = os.getenv("PUSHOVER_USER")
+    if not token or not user:
+        print("Pushover credentials not set")
+        return
+    try:
+        httpx.post(
+            "https://api.pushover.net/1/messages.json",
+            data={
+                "token": token,
+                "user": user,
+                "title": title,
+                "message": message[:1024],
+            },
+        )
+    except Exception as e:
+        print(f"Pushover error: {e}")
 
 
 async def generate_story(
@@ -41,6 +64,11 @@ async def generate_story(
     async for chunk in StoryManager().run(user_input):
         # Check if this is the final story (starts with #)
         if chunk.startswith("# ") or chunk.startswith("---"):
+            # Send Pushover notification
+            send_pushover_notification(
+                f"Story created for {child_name}",
+                f"Age: {age}, Length: {story_length}, Language: {story_language}",
+            )
             yield "", chunk  # Clear status, show story
         else:
             yield chunk, ""  # Show status, clear story
@@ -49,10 +77,10 @@ async def generate_story(
 # Build the Gradio UI
 with gr.Blocks(
     theme=gr.themes.Soft(primary_hue="purple", secondary_hue="pink"),
-    title="DreamWeaver - Bedtime Stories",
+    title="Bedtime Stories Creator",
 ) as ui:
 
-    gr.Markdown("# 🌙 DreamWeaver - Bedtime Stories")
+    gr.Markdown("# 🌙 Bedtime Stories Creator")
 
     # Row 1: Name, Age, Length
     with gr.Row():
@@ -62,7 +90,7 @@ with gr.Blocks(
             label="Story Length",
             choices=["short", "medium", "long"],
             value="medium",
-            scale=1
+            scale=1,
         )
 
     # Row 2: Interests, Special Character, Moral
@@ -70,39 +98,59 @@ with gr.Blocks(
         interests = gr.Dropdown(
             label="Interests (select multiple)",
             choices=[
-                "Animals", "Space and Stars", "Dinosaurs", "Princesses and Castles",
-                "Ocean and Sea Creatures", "Magic and Wizards", "Vehicles", "Nature and Forests",
-                "Superheroes", "Fairies", "Robots", "Music", "Sports", "Cooking",
-                "Dragons", "Unicorns", "Pirates", "Trains", "Butterflies", "Gardens"
+                "Animals",
+                "Space and Stars",
+                "Dinosaurs",
+                "Princesses and Castles",
+                "Ocean and Sea Creatures",
+                "Magic and Wizards",
+                "Vehicles",
+                "Nature and Forests",
+                "Superheroes",
+                "Fairies",
+                "Robots",
+                "Music",
+                "Sports",
+                "Cooking",
+                "Dragons",
+                "Unicorns",
+                "Pirates",
+                "Trains",
+                "Butterflies",
+                "Gardens",
             ],
             multiselect=True,
-            scale=2
+            scale=2,
         )
         special_character = gr.Textbox(
-            label="Special Character",
-            placeholder="Fluffy the cat (optional)",
-            scale=1
+            label="Special Character", placeholder="Fluffy the cat (optional)", scale=1
         )
         moral_lesson = gr.Dropdown(
             label="Moral Lesson",
-            choices=["None", "Kindness and Giving", "Courage", "Curiosity", "Patience", "Friendship", "Being Yourself"],
+            choices=[
+                "None",
+                "Kindness and Giving",
+                "Courage",
+                "Curiosity",
+                "Patience",
+                "Friendship",
+                "Being Yourself",
+            ],
             value="Kindness and Giving",
-            scale=1
+            scale=1,
         )
 
     # Row 3: Avoid, Fun Fact, Language
     with gr.Row():
         topics_to_avoid = gr.Textbox(
-            label="Topics to Avoid",
-            placeholder="water, dogs (optional)",
-            scale=2
+            label="Topics to Avoid", placeholder="water, dogs (optional)", scale=2
         )
         include_fun_fact = gr.Checkbox(label="Include Fun Fact", value=True, scale=1)
         story_language = gr.Radio(
             label="Story Language",
             choices=["Hebrew", "English"],
             value="Hebrew",
-            scale=1
+            scale=1,
         )
 
     # Full-width button
@@ -115,15 +163,21 @@ with gr.Blocks(
     story_output = gr.Markdown(value="", rtl=True)
 
     gr.Markdown(
-        "🛡️ *Every story is reviewed by our Story Guardian for safety, age-appropriate content, and a calming ending.*"
+        "🛡️ *Every story is reviewed by our Story Guardian for child safety. AI can make mistakes. Story should be reviewed by a parent.*"
     )
 
     # Wire up the button
     generate_btn.click(
         fn=generate_story,
         inputs=[
-            child_name, age, story_length, interests,
-            special_character, moral_lesson, topics_to_avoid, include_fun_fact,
+            child_name,
+            age,
+            story_length,
+            interests,
+            special_character,
+            moral_lesson,
+            topics_to_avoid,
+            include_fun_fact,
             story_language,
         ],
         outputs=[status_output, story_output],
