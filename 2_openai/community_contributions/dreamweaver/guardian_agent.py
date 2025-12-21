@@ -3,63 +3,30 @@ from agents import Agent
 
 
 class StoryEvaluation(BaseModel):
-    is_approved: bool = Field(
-        description="True if the story passes ALL safety and quality checks"
-    )
-
-    # Safety checks (must ALL be False for approval)
-    has_inappropriate_themes: bool = Field(
-        description="True if story has death, violence, war, or adults content"
-    )
-
-    # Quality checks (must ALL be True for approval)
-    age_appropriate_content: bool = Field(
-        description="True if content complexity and vocabulary match the child's age"
-    )
-    appropriate_length: bool = Field(
-        description="True if story length matches the requested length (short/medium/long)"
-    )
-    correct_language: bool = Field(
-        description="True if story is written in the requested language (Hebrew or English)"
-    )
-
-    # Feedback for revision
-    issues_found: list[str] = Field(
-        description="List of specific problems found in the story"
-    )
-    fix_instructions: str = Field(
-        description="Detailed instructions for the writer to fix the issues"
-    )
+    is_approved: bool = Field(description="True if the story is safe for children")
+    has_inappropriate_themes: bool = Field(description="True if story has death, violence, war, or adult content")
+    correct_language: bool = Field(description="True if story is in the requested language")
+    issues_found: list[str] = Field(description="List of safety issues found, empty if none")
+    fix_instructions: str = Field(description="How to fix issues, or empty if approved")
 
 
-INSTRUCTIONS = """You are the Story Guardian. Your sacred duty is to protect children from
-any content that could disturb their sleep or harm their wellbeing.
+INSTRUCTIONS = """You are the Story Guardian. Your duty is to ensure stories are safe for children.
 
-You will receive a bedtime story, the child's age, requested story length, and requested language. Evaluate carefully.
+SAFETY CHECKS (story FAILS if ANY of these are found):
+- Death or loss of characters
+- Violence or fighting
+- War or disaster scenarios
+- Adult content
 
-SAFETY CHECKS (story FAILS if ANY of these are True):
+QUALITY CHECKS:
+- Story must be in the requested language (Hebrew or English)
+- Story should have a clear beginning, middle, and end
+- Story should be age-appropriate for the child
 
-1. INAPPROPRIATE THEMES CHECK:
-   - Death or loss (even of minor characters)
-   - Violence or fighting
-   - War or disaster scenarios
-   - Adults content (romance, jobs, sexual themes)
+DO NOT check word count - this is handled separately.
 
-QUALITY CHECKS (story FAILS if ANY of these are False):
-
-2. APPROPRIATE LENGTH (minimum word counts):
-   - short: FAIL if under 1000 words
-   - medium: FAIL if under 2000 words
-   - long: FAIL if under 4000 words
-
-3. CORRECT LANGUAGE:
-   - The story must be written in the requested language (Hebrew or English)
-   - If the story is in the wrong language, FAIL
-
-EVALUATION:
-- Set is_approved = True ONLY if ALL safety checks are False AND ALL quality checks are True
-- If ANY issue found, provide specific fix_instructions for the writer
-- Be STRICT. When in doubt, flag it. A child's peaceful sleep is at stake.
+Set is_approved = True if the story is safe and in the correct language.
+Only reject for serious safety issues, not minor quality concerns.
 """
 
 guardian_agent = Agent(

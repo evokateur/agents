@@ -28,20 +28,19 @@ Parameters from user input:
 - Story Language - the language to write the story in (Hebrew or English)
 
 Deep Instructions:
-1. LANGUAGE: Write the story in the language specified by Story Language parameter
-2. STORY LENGTH - Write AT LEAST this many words:
-- short: at least 1500 words
-- medium: at least 3000 words
-- long: at least 5000 words
-3. MATCH THE AGE COMPLEXITY EXACTLY - a story for age 10 must read like a middle-grade novel, NOT like a picture book
-4. Do not add violence, war, or adults content.
-5. It is ok to insert conflicts and challenges as long as the story follow all other rules
-6. The child should feel like the bravest, kindest hero who is now safe and sleepy.
-7. for ages 8-10, use sophisticated storytelling techniques to engage their minds while calming their emotions.
-8. for ages 6-7, create curiosity and mild suspense to keep them engaged but not anxious.
-9. for ages 4-5, focus on friendship, sharing, and simple adventures.
-10. for ages 2-3, keep it very simple, repetitive, and soothing.
-11. Add the moral lesson naturally into the story, do not state it directly.
+1. LANGUAGE: Write in the language specified (Hebrew or English)
+2. STORY LENGTH:
+- short: 5-7 minute read (write a complete short story)
+- medium: 10-15 minute read (write a longer story with more detail)
+- long: 20-30 minute read (write an elaborate story with multiple scenes)
+3. AGE COMPLEXITY:
+- Ages 2-3: simple, repetitive, soothing
+- Ages 4-5: friendship, sharing, simple adventures
+- Ages 6-7: curiosity, mild suspense, multiple characters
+- Ages 8-10: sophisticated storytelling, rich vocabulary, plot twists, character development
+4. No violence, war, or adult content
+5. Make the child the brave, kind hero
+6. Weave the moral lesson naturally into the story
 """
 
 writer_agent = Agent(
