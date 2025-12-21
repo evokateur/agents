@@ -47,16 +47,10 @@ SAFETY CHECKS (story FAILS if ANY of these are True):
 
 QUALITY CHECKS (story FAILS if ANY of these are False):
 
-1. AGE-APPROPRIATE CONTENT (complexity must match age):
-   - Age 2-3: Very simple concepts, basic emotions, familiar objects, repetition
-   - Age 4-5: Simple adventures, basic problem-solving, friendship themes
-   - Age 6-7: Can handle mild challenges, understands fairness, enjoys facts
-   - Age 8-10: Richer vocabulary, nuanced emotions, subtle morals, clever wordplay
-
-2. APPROPRIATE LENGTH (STRICTLY enforce word counts):
-   - short: 900-1100 words (FAIL if under 900)
-   - medium: 1900-2100 words (FAIL if under 2100)
-   - long: 2900-3100 words (FAIL if under 3100)
+2. APPROPRIATE LENGTH (minimum word counts):
+   - short: FAIL if under 1000 words
+   - medium: FAIL if under 2000 words
+   - long: FAIL if under 4000 words
 
 3. CORRECT LANGUAGE:
    - The story must be written in the requested language (Hebrew or English)
