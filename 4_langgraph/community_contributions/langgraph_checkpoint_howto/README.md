@@ -28,7 +28,8 @@ and the output will be
 
 `'1f0ddfc5-39a6-6116-8005-423c2c2a09e6'`
 
-However, we need to know the whole history of the graph invocation that involves multiple StateSnapshots. 
+However, we need to know the whole history of the graph invocation that involves multiple StateSnapshots. `graph.get_state_history` will do the trick.
+
 ```
 list(graph.get_state_history(config))
 ```
@@ -42,27 +43,27 @@ next= ('__start__',)
 
 ---
 
-checkpoint_id= 1f0ddfc4-f909-696e-8000-ce0f54506b34, message_type= HumanMessage, message_content= "search the exchange rate of usd to canadian and send a push notification to me"
+checkpoint_id= 1f0ddfc4-f909-696e-8000-ce0f54506b34, message_type= "HumanMessage", message_content= "search the exchange rate of usd to canadian and send a push notification to me"
 next= ('chatbot',)
 
 ---
 
-checkpoint_id= 1f0ddfc5-08f2-69ac-8001-5ecf936ca23d, message_type= AIMessage, tool_call:, name= search, args= current exchange rate USD to CAD,
+checkpoint_id= 1f0ddfc5-08f2-69ac-8001-5ecf936ca23d, message_type= "AIMessage", tool_call:, name= "search", args= "current exchange rate USD to CAD",
 finish_reason= "tool_calls" next= ('tools',)
 
 ---
 
-checkpoint_id= 1f0ddfc5-1149-6a42-8002-36424b587855, message_type= ToolMessage, tool_name= "search", message_content= "1.38 Canadian Dollar"
+checkpoint_id= 1f0ddfc5-1149-6a42-8002-36424b587855, message_type= "ToolMessage", tool_name= "search", message_content= "1.38 Canadian Dollar"
 next= ('chatbot',)
 
 ---
 
-checkpoint_id= 1f0ddfc5-213c-6148-8003-0e4a36a7839c, message_type= AIMessage, tool_call:, name= send_push_notification, args= The current exchange rate is 1 USD = 1.38 CAD.
+checkpoint_id= 1f0ddfc5-213c-6148-8003-0e4a36a7839c, message_type= "AIMessage", tool_call:, name= "send_push_notification", args= "The current exchange rate is 1 USD = 1.38 CAD."
 finish_reason= "tool_calls" next= ('tools',)
 
 ---
 
-checkpoint_id= 1f0ddfc5-2316-6d24-8004-df7b9978987f, message_type= ToolMessage, tool_name= "send_push_notification", message_content= "null"
+checkpoint_id= 1f0ddfc5-2316-6d24-8004-df7b9978987f, message_type= "ToolMessage", tool_name= "send_push_notification", message_content= "null"
 next= ('chatbot',)
 
 ---
@@ -71,24 +72,29 @@ checkpoint_id= 1f0ddfc5-39a6-6116-8005-423c2c2a09e6 message_type= AIMessage, fin
 
 ---
 
-Please notice a couple of things:  
-`graph.get_state_history` is in the reverse order with the latest first. 
-Each StateSnapshot has accumulated Messages. Need to retrieve the latest Message.
-One AI Message can have multiple tool_calls. AIMessage is the engine that has the instructions of tool calls.
+Please notice a couple of things:
+`graph.get_state_history` is in the reverse order with the latest first.
+Each StateSnapshot has accumulated Messages. You do need to retrieve the latest Message.
+One AI Message can have multiple tool_calls. AIMessage is the engine that has the instructions of tool calls. The code that  dump the history and relevant information is in the Juypter Notebook.
 
 ### How to re-run with a checkpoint.
-If I want to re-run `send_push_notification`, I need to set to checkpoint to the AIMessage prior to the ToolMessage because AIMessage has the instruction of the ToolMessage
+
+If you want to re-run `send_push_notification` only, you need to set the checkpoint to the AIMessage prior to that ToolMessage because AIMessage has the instruction of the ToolMessage.
+
 ```
 config = {"configurable": {"thread_id": "1", "checkpoint_id": "1f0ddfc5-213c-6148-8003-0e4a36a7839c"}}
 graph.invoke(None, config=config)
 ```
 
-If I want to re-run the whole graph flow, I can either set the checkpoint to the HumanMessage which is the second one.
+If you want to re-run the whole graph flow, you can either set the checkpoint to the HumanMessage which is the second one.
+
 ```
 config = {"configurable": {"thread_id": "1", "checkpoint_id": "1f0ddfc4-f909-696e-8000-ce0f54506b34"}}
 graph.invoke(None, config=config)
 ```
-Or I can either set the checkpoint to the very beginning.
+
+Or you can set the checkpoint to the very beginning.
+
 ```
 config = {"configurable": {"thread_id": "1", "checkpoint_id": "1f0ddfc4-f907-63b2-bfff-cc8e490d26f8"}}
 graph.invoke(None, config=config)
