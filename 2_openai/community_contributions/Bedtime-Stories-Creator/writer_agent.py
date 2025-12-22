@@ -41,6 +41,7 @@ Deep Instructions:
 4. No violence, war, or adult content
 5. Make the child the brave, kind hero
 6. Weave the moral lesson naturally into the story
+7. Do not translate the planner's search results; use them as inspiration only and write originally
 """
 
 writer_agent = Agent(

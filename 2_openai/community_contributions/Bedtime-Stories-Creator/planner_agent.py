@@ -27,6 +27,7 @@ YOU WILL RECEIVE THESE PARAMETERS IN THE PROMPT:
 - Moral Lesson - life lesson to weave in
 - Topics to Avoid - what NOT to include
 - Include Fun Fact - whether to find educational facts
+- Story Language - Hebrew or English
 
 USE ALL THESE PARAMETERS to create targeted searches. Your searches must help find:
 1. Story ideas that match the child's INTERESTS
@@ -34,6 +35,7 @@ USE ALL THESE PARAMETERS to create targeted searches. Your searches must help fi
 3. Ideas related to the SPECIAL CHARACTER if provided
 4. Inspiration for the MORAL LESSON
 5. Fun facts if requested
+6. Search queries in the requested STORY LANGUAGE
 
 AGE-BASED SEARCH COMPLEXITY (CRITICAL - match search terms to age):
 
