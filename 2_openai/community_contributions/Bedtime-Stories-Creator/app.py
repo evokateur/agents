@@ -82,89 +82,144 @@ with gr.Blocks(
 
     gr.Markdown("# 🌙 Bedtime Stories Creator")
 
-    # Row 1: Name, Age, Length
-    with gr.Row():
-        child_name = gr.Textbox(label="Child's Name", placeholder="Noa", scale=2)
-        age = gr.Slider(label="Age", minimum=2, maximum=10, step=1, value=5, scale=1)
-        story_length = gr.Radio(
-            label="Story Length",
-            choices=["short", "medium", "long"],
-            value="medium",
-            scale=1,
+    # Child's Name - separate box
+    with gr.Group():
+        child_name = gr.Textbox(label="Child's Name", placeholder="Enter name...")
+
+    # Age - separate box with dropdown
+    with gr.Group():
+        age = gr.Dropdown(
+            label="Age",
+            choices=[2, 3, 4, 5, 6, 7, 8, 9, 10],
+            value=5,
         )
 
-    # Row 2: Interests, Special Character, Moral
-    with gr.Row():
+    # Interests - separate box
+    with gr.Group():
         interests = gr.Dropdown(
-            label="Interests (select multiple)",
+            label="Interests",
             choices=[
+                # Animals & Nature
                 "Animals",
-                "Space and Stars",
                 "Dinosaurs",
-                "Princesses and Castles",
-                "Ocean and Sea Creatures",
-                "Magic and Wizards",
-                "Vehicles",
-                "Nature and Forests",
-                "Superheroes",
-                "Fairies",
-                "Robots",
-                "Music",
-                "Sports",
-                "Cooking",
+                "Ocean",
+                "Nature",
+                "Butterflies",
+                "Birds",
+                # Fantasy
                 "Dragons",
                 "Unicorns",
+                "Fairies",
+                "Magic",
+                "Wizards",
+                # Adventure
                 "Pirates",
+                "Space",
+                "Superheroes",
+                "Ninjas",
+                "Knights",
+                "Explorers",
+                # Toys & Brands
+                "LEGO",
+                "Playmobil",
+                "Hot Wheels",
+                "Barbie",
+                "Paw Patrol",
+                "Peppa Pig",
+                # Gaming
+                "Minecraft",
+                "Fortnite",
+                "Roblox",
+                "Pokemon",
+                "Mario",
+                "Gaming",
+                "Brawlstar",
+                # Vehicles
                 "Trains",
-                "Butterflies",
-                "Gardens",
+                "Cars",
+                "Airplanes",
+                "Rockets",
+                "Trucks",
+                "Motorcycles",
+                # Creative
+                "Art",
+                "Music",
+                "Dancing",
+                "Cooking",
+                "Building",
+                "Crafts",
+                # Sports
+                "Sports" "Soccer",
+                "Basketball",
+                "Swimming",
+                "Martial Arts",
+                # Characters
+                "Princesses",
+                "Robots",
+                "Kings",
+                "Queens",
             ],
             multiselect=True,
-            scale=2,
         )
-        special_character = gr.Textbox(
-            label="Special Character", placeholder="Fluffy the cat (optional)", scale=1
+
+    # Other options - all dropdowns
+    with gr.Group():
+        story_length = gr.Dropdown(
+            label="Length", choices=["short", "medium", "long"], value="medium"
+        )
+        story_language = gr.Dropdown(
+            label="Language", choices=["Hebrew", "English"], value="Hebrew"
         )
         moral_lesson = gr.Dropdown(
             label="Moral Lesson",
             choices=[
                 "None",
-                "Kindness and Giving",
+                # Core values
+                "Kindness",
                 "Courage",
-                "Curiosity",
+                "Honesty",
                 "Patience",
+                "Gratitude",
+                # Social
                 "Friendship",
+                "Sharing",
+                "Teamwork",
+                "Helping Others",
+                "Forgiveness",
+                # Personal growth
                 "Being Yourself",
+                "Believing in Yourself",
+                "Never Give Up",
+                # Responsibility
+                "Responsibility",
+                "Hard Work",
+                "Taking Care of Others",
+                "Respecting Nature",
+                # Emotional
+                "Overcoming Fear",
+                "Dealing with Change",
             ],
-            value="Kindness and Giving",
-            scale=1,
+            value="Kindness",
         )
 
-    # Row 3: Avoid, Fun Fact, Language
-    with gr.Row():
-        topics_to_avoid = gr.Textbox(
-            label="Topics to Avoid", placeholder="water, dogs (optional)", scale=2
+    # Optional fields
+    with gr.Accordion("More Options", open=False):
+        special_character = gr.Textbox(
+            label="Special Character", placeholder="Fluffy the cat"
         )
-        include_fun_fact = gr.Checkbox(label="Include Fun Fact", value=True, scale=1)
-        story_language = gr.Radio(
-            label="Story Language",
-            choices=["Hebrew", "English"],
-            value="Hebrew",
-            scale=1,
-        )
+        topics_to_avoid = gr.Textbox(label="Topics to Avoid", placeholder="water, dogs")
+        include_fun_fact = gr.Checkbox(label="Include Fun Fact", value=True)
 
-    # Full-width button
-    generate_btn = gr.Button("✨ Create Magical Story", variant="primary", size="lg")
+    # Button
+    generate_btn = gr.Button("✨ Create Story", variant="primary", size="lg")
 
-    # Status message (replaces itself)
-    status_output = gr.Markdown(value="", elem_id="status")
+    # Status
+    status_output = gr.Markdown(value="")
 
-    # Story output below
+    # Story output
     story_output = gr.Markdown(value="", rtl=True)
 
-    gr.Markdown(
-        "🛡️ *Every story is reviewed by our Story Guardian for child safety. AI can make mistakes. Story should be reviewed by a parent.*"
-    )
+    gr.Markdown("🛡️ *Stories reviewed for child safety. AI can make mistakes.*")
 
     # Wire up the button
     generate_btn.click(
