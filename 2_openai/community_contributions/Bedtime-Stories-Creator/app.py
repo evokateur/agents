@@ -149,7 +149,8 @@ with gr.Blocks(
                 "Building",
                 "Crafts",
                 # Sports
-                "Sports" "Soccer",
+                "Sports",
+                "Soccer",
                 "Basketball",
                 "Swimming",
                 "Martial Arts",
@@ -159,6 +160,7 @@ with gr.Blocks(
                 "Kings",
                 "Queens",
             ],
+            value=["Animals"],
             multiselect=True,
         )
 
