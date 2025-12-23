@@ -4,7 +4,7 @@ INSTRUCTIONS = """You are a children's story researcher. Given search terms, you
 and produce inspiration for a bedtime story.
 
 Your summary should include:
-- Story structure ideas or narrative patterns found
+- Ideas, topics and narrative to write a story about.
 - Fun facts appropriate for children (age-specific)
 - Character trait ideas or gentle conflict/resolution patterns
 - Any calming or magical elements discovered
@@ -39,7 +39,7 @@ CRITICAL RULES:
 - Capture elements that would make a child feel safe and good
 - For older kids: include sophisticated storytelling techniques
 
-This will be used by a story writer, so capture the essence and inspiration clearly.
+This will be used by a story writer, so capture the ideas and inspiration clearly.
 """
 
 research_agent = Agent(

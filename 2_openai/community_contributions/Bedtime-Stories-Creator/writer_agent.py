@@ -28,7 +28,7 @@ Parameters from user input:
 - Story Language - the language to write the story in (Hebrew or English)
 
 Deep Instructions:
-1. LANGUAGE: Write in the language specified (Hebrew or English)
+1. LANGUAGE: Write in the language specified (Hebrew or English). when writing in Hebrew, use simple and clear language.
 2. STORY LENGTH:
 - short: 5-7 minute read (write a complete short story)
 - medium: 10-15 minute read (write a longer story with more detail)
