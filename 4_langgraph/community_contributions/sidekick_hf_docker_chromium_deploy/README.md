@@ -12,7 +12,7 @@ This error means Playwright’s **Python code is present**, but the **Chromium b
 
 ### HugginFace Deployment Gradio vs. Docker:
 
-There are a couple of facts regarding to HuggingFace deployment. Each application deployment requires a new space. Spaces can be roughly categorized by SDK installed: Gradio and Docker. Each space comes with a HuggingFace github space repo . `uv run gradio deploy` will create a space with Gradio SDK installed and upload all files to that repo.  It also will honor versioned defined in `uv.lock`. The README.md of my Gradio deployment will have the followings
+There are a couple of facts regarding to HuggingFace deployment. Each application deployment requires a new space. Spaces can be roughly categorized by SDK installed: Gradio or Docker. Each space comes with a HuggingFace github space repo . `uv run gradio deploy` will create a space with Gradio SDK installed and upload all files to that repo.  It also will honor versioned defined in `uv.lock`. The README.md of my Gradio deployment will have the followings
 
 ```
 title: sidekick
@@ -21,11 +21,11 @@ sdk: gradio
 sdk_version: 5.49.1
 ```
 
-You are on your own if you deploy your app using Docker - clone that repo, commit and push all files, including Dockerfile and modified README.md if needed.
+`5.49.1` is the gradio version defined in uv.lock. You are on your own if you deploy your app using Docker - clone that repo, commit and push all files, including Dockerfile, modified README.md and pin versions of python modules in requirement.txt if needed
 
 ### Why is Sidekick docker deployment so complicated?
 
-You might notice that 'it is trying to access `root` folder which is not accessible from user.  There would be a mis-match unless we let Playwright know where to install Chromium. Gradio deployment will take care of Gradio app-port: 7860 and where to bind Gradio and  EXPOSE port. We have to take care of those ourselves in Docker deployment.
+You might notice that it is trying to access `root` folder which is not accessible from user.  There would be a mis-match unless we let Playwright know where to install Chromium. Gradio deployment will take care of Gradio app-port: 7860 and where to bind Gradio and EXPOSE port. We have to take care of those ourselves in Docker deployment.
 
 ```
 Executable doesn’t exist at /root/.cache/ms-playwright/chromium-1200/chrome-linux64/chrome
@@ -38,7 +38,7 @@ sdk: docker
 app_port: 7860
 ```
 
-and a working copy DockerFile
+and a working copy of DockerFile
 
 ```
 FROM python:3.12-slim
@@ -77,9 +77,9 @@ CMD ["python", "app.py"]
 * Respect HF’s **UID 1000** runtime and permissions.
 * Bind Gradio to `0.0.0.0:7860`.
 * Use Gradio queue and low concurrency for Playwright tasks.
+* Need to pin specific version of Gradio etcs since Gradio 6 is not compatible with 5.
 
-**Special thanks for a HuggingFace forum user `john6666` to come up with key points of Dockerfile and README.m**
-
+**Special thanks for a HuggingFace forum user `john6666` to come up with key points of Dockerfile and README.md**
 
 ### Github Codes:
 
