@@ -23,8 +23,7 @@ openai = OpenAI()
 # request = "come up with an online business idea that can be executed entierly with AI and would be very profitable,"
 # request += "i want to ask other LLMs to come up with a detailed plan for this business idea so i can determine which LLM is best suited to help me execute this business idea"
 # request += " provide the business idea in a single sentence"
-request="i want to create and sell source code online using AI, come up with an execution Plan, including list of markets to target, marketing strategies, monetization methods, " \
-", potential challenges to overcome, expected revenue, and most profitable product types to sell. Provide the response in a detailed plan format."
+request="i want to create and sell source code online using AI, come up with a specific business idea for this"
 messages = [{"role": "user", "content": request}]
 response = openai.chat.completions.create(
     model="gpt-4.1-nano",
@@ -35,7 +34,7 @@ print("Business Idea:", idea)
 competitors = ["gpt-4.1-mini"]
 #"Gemini 3 Flash (Preview)","Gemini 2.5 Flash-Lite","Gemini 2.5 Flash"
 answers = []
-messages = [{"role": "user", "content": f"Provide a detailed plan to execute the following business idea: {idea}"}]
+messages = [{"role": "user", "content": f"Provide a detailed plan to execute the following business idea: {idea} inclusive of steps to take, tools to use and marketing strategies, expected revenue duration on cost "}]
 for competitor in competitors:
     response = openai.chat.completions.create(
         model=competitor,
